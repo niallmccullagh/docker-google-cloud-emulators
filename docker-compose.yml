@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+
+  pubsub:
+    build: .
+    container_name: gcp-pubsub-emulator
+    networks:
+      - main
+    ports:
+      - "8538:8538"
+    command:
+      /bin/bash -c
+        "gcloud config set project emulator && gcloud beta emulators pubsub start --data-dir /mnt/data/pubsub --host-port 0.0.0.0:8538"
+
+  datastore:
+    build: .
+    container_name: gcp-datastore-emulator
+    networks:
+      - main
+    ports:
+      - "8432:8432"
+    command:
+      /bin/bash -c
+        "gcloud config set project emulator && gcloud beta emulators datastore start --quiet --data-dir /mnt/data/gcd --host-port 0.0.0.0:8432"
+
+networks:
+  main:
