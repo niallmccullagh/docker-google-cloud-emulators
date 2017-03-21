@@ -3,7 +3,7 @@ version: '2'
 services:
 
   pubsub:
-    build: .
+    image: niallmccullagh/docker-google-cloud-emulators:latest
     container_name: gcp-pubsub-emulator
     networks:
       - main
@@ -14,8 +14,34 @@ services:
         "gcloud config set project emulator && gcloud beta emulators pubsub start --data-dir /mnt/data/pubsub --host-port 0.0.0.0:8538"
 
   datastore:
-    build: .
+    image: niallmccullagh/docker-google-cloud-emulators:latest
     container_name: gcp-datastore-emulator
+    networks:
+      - main
+    ports:
+      - "8432:8432"
+    command:
+      /bin/bash -c
+        "gcloud config set project emulator && gcloud beta emulators datastore start --quiet --data-dir /mnt/data/gcd --host-port 0.0.0.0:8432"
+
+  persistent-pubsub:
+    image: niallmccullagh/docker-google-cloud-emulators:latest
+    container_name: gcp-pubsub-emulator
+    volumes:
+      - ./data/pubsub:/mnt/data/pubsub
+    networks:
+      - main
+    ports:
+      - "8538:8538"
+    command:
+      /bin/bash -c
+        "gcloud config set project emulator && gcloud beta emulators pubsub start --data-dir /mnt/data/pubsub --host-port 0.0.0.0:8538"
+
+  persistent-datastore:
+    image: niallmccullagh/docker-google-cloud-emulators:latest
+    container_name: gcp-datastore-emulator
+    volumes:
+      - ./data/gcd:/mnt/data/gcd
     networks:
       - main
     ports:
