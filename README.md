@@ -18,7 +18,7 @@ Update your local environment
 
 Mount a volume from a local folder to `/mnt/data/pubsub`
 
-### Datastore
+## Datastore
 
 ### Running
 
