@@ -1,7 +1,7 @@
 FROM java:7-jre
 
-RUN apt-get update
-RUN apt-get install -y python
+RUN apt-get update && apt-get install -y \
+    python
 
 # Install gcloud
 ENV GCLOUD_OBJ=google-cloud-sdk-245.0.0-linux-x86_64.tar.gz
